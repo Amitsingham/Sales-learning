@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tech Sales Learning Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --primary-light: #1e88e5;
+            --secondary: #00897b;
+            --accent: #ff6f00;
+            --bg-dark: #0a1929;
+            --bg-light: #f8fafc;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --card-bg: #ffffff;
+            --border: #e0e7ff;
+            --success: #00c853;
+            --shadow: rgba(15, 76, 129, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 100%);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
+            color: var(--text-light);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .progress-bar {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: 0 4px 15px var(--shadow);
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .progress-track {
+            background: var(--border);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--secondary), var(--primary-light));
+            height: 100%;
+            width: 0%;
+            transition: width 0.6s ease;
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow);
+            border-color: var(--primary-light);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .module-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .module-time {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            background: var(--border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+        }
+
+        .module-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .module-content.active {
+            display: block;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn {
+            background: var(--text-light);
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+        }
+
+        .scenario-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .scenario-icon {
+            font-size: 2rem;
+        }
+
+        .scenario-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .scenario-step {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .scenario-step.active {
+            display: block;
+        }
+
+        .client-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--primary-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .client-quote {
+            font-style: italic;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .client-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-item {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tech-item:hover {
+            border-color: var(--primary-light);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .tech-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-type {
+            font-size: 0.8rem;
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            max-width: 250px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .tech-item:hover .tooltip {
+            opacity: 1;
+        }
+
+        .decision-tree {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .decision-node {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            color: var(--text-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .decision-node:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .decision-question {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .decision-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .decision-option {
+            background: var(--card-bg);
+            color: var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-weight: 600;
+        }
+
+        .decision-option:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .decision-result {
+            display: none;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            animation: slideIn 0.4s ease;
+        }
+
+        .decision-result.active {
+            display: block;
+        }
+
+        .result-title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .architecture-diagram {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .diagram-layer {
+            margin-bottom: 2rem;
+        }
+
+        .layer-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .layer-items {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .layer-box {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            color: var(--text-light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .layer-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px var(--shadow);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text-light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .comparison-table td {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background: #f0f9ff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-opensource {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-licensed {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .badge-cloud {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--secondary), var(--primary-light));
+            color: var(--text-light);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .complete-badge {
+            display: inline-block;
+            background: var(--success);
+            color: var(--text-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .diagram-arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .key-insight {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .insight-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-modules {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+
+            .decision-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Interactive Tech Sales Mastery</h1>
+            <p class="subtitle">Visual learning guide for mid-size company engagements</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-label">Your Learning Progress: <span id="progress-percent">0%</span></div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Navigation Modules -->
+        <div id="nav-modules" class="nav-modules">
+            <div class="module-card" onclick="showModule('module1')">
+                <div class="module-icon">🏗️</div>
+                <div class="module-title">Tech Stack Explorer</div>
+                <div class="module-desc">Interactive architecture diagrams and real-world stack examples</div>
+                <span class="module-time">⏱ 12 min</span>
+            </div>
+
+            <div class="module-card" onclick="showModule('module2')">
+                <div class="module-icon">🆚</div>
+                <div class="module-title">Open-Source vs Licensed</div>
+                <div class="module-desc">Visual comparisons with cost scenarios and decision frameworks</div>
+                <span class="module-time">⏱ 10 min</span>
+            </div>
+
+            <div class="module-card" onclick="showModule('module3')">
+                <div class="module-icon">🗺️</div>
+                <div class="module-title">Modernization Pathways</div>
+                <div class="module-desc">Interactive decision trees for migration strategies</div>
+                <span class="module-time">⏱ 15 min</span>
+            </div>
+
+            <div class="module-card" onclick="showModule('module4')">
+                <div class="module-icon">🎯</div>
+                <div class="module-title">Client Scenarios</div>
+                <div class="module-desc">Click-through real mid-size company challenges and solutions</div>
+                <span class="module-time">⏱ 15 min</span>
+            </div>
+
+            <div class="module-card" onclick="showModule('module5')">
+                <div class="module-icon">🚀</div>
+                <div class="module-title">Digital Transformation</div>
+                <div class="module-desc">Before/After visualizations and transformation roadmaps</div>
+                <span class="module-time">⏱ 12 min</span>
+            </div>
+
+            <div class="module-card" onclick="showModule('module6')">
+                <div class="module-icon">📱</div>
+                <div class="module-title">App Development Guide</div>
+                <div class="module-desc">Mobile vs Web decision trees with interactive cost calculator</div>
+                <span class="module-time">⏱ 10 min</span>
+            </div>
+        </div>
+
+        <!-- Module 1: Tech Stack Explorer -->
+        <div id="module1" class="module-content">
+            <div class="section-header">
+                <h2 class="section-title">🏗️ Tech Stack Explorer</h2>
+                <p>Understand how technologies work together in real applications</p>
+                <button class="back-btn" onclick="backToModules()">← Back to Modules</button>
+            </div>
+
+            <div class="scenario-container">
+                <h3>Interactive Architecture: E-Commerce Platform</h3>
+                <p style="margin-bottom: 2rem;">Hover over each component to learn what it does. This is a typical stack for a mid-size retailer.</p>
+
+                <div class="architecture-diagram">
+                    <div class="diagram-layer">
+                        <div class="layer-title">Frontend Layer (What Users See)</div>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                React
+                                <div class="tooltip">JavaScript library for building user interfaces. Powers interactive product pages, shopping cart, checkout flow.</div>
+                            </div>
+                            <div class="layer-box">
+                                Next.js
+                                <div class="tooltip">React framework for server-side rendering. Makes pages load faster, better for SEO and user experience.</div>
+                            </div>
+                            <div class="layer-box">
+                                Tailwind CSS
+                                <div class="tooltip">Utility-first CSS framework. Speeds up UI development with pre-built styling classes.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-arrow">↓</div>
+
+                    <div class="diagram-layer">
+                        <div class="layer-title">API Layer (Connects Frontend to Backend)</div>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                GraphQL
+                                <div class="tooltip">API query language. Lets frontend request exactly the data it needs, reducing unnecessary data transfer.</div>
+                            </div>
+                            <div class="layer-box">
+                                API Gateway
+                                <div class="tooltip">Entry point for all API requests. Handles authentication, rate limiting, and routing to correct services.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-arrow">↓</div>
+
+                    <div class="diagram-layer">
+                        <div class="layer-title">Backend Layer (Business Logic)</div>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                Node.js
+                                <div class="tooltip">JavaScript runtime for server-side code. Fast, scalable, same language as frontend.</div>
+                            </div>
+                            <div class="layer-box">
+                                Express.js
+                                <div class="tooltip">Web framework for Node.js. Handles HTTP requests, routing, and middleware.</div>
+                            </div>
+                            <div class="layer-box">
+                                Microservices
+                                <div class="tooltip">Architecture pattern: Separate services for products, orders, users, payments. Each can be updated independently.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-arrow">↓</div>
+
+                    <div class="diagram-layer">
+                        <div class="layer-title">Data Layer (Storage)</div>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                PostgreSQL
+                                <div class="tooltip">Open-source SQL database. Stores structured data: products, orders, customer info. ACID compliant for reliability.</div>
+                            </div>
+                            <div class="layer-box">
+                                Redis
+                                <div class="tooltip">In-memory cache. Stores frequently accessed data (shopping cart, session data) for instant retrieval.</div>
+                            </div>
+                            <div class="layer-box">
+                                Elasticsearch
+                                <div class="tooltip">Search engine. Powers product search with fuzzy matching, filters, and fast results.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-arrow">↓</div>
+
+                    <div class="diagram-layer">
+                        <div class="layer-title">Infrastructure Layer (Where It Runs)</div>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                AWS EC2
+                                <div class="tooltip">Virtual servers in the cloud. Runs your application code with auto-scaling for traffic spikes.</div>
+                            </div>
+                            <div class="layer-box">
+                                Docker
+                                <div class="tooltip">Containerization platform. Packages application with dependencies for consistent deployment.</div>
+                            </div>
+                            <div class="layer-box">
+                                Kubernetes
+                                <div class="tooltip">Container orchestration. Manages, scales, and self-heals containers across multiple servers.</div>
+                            </div>
+                            <div class="layer-box">
+                                CloudFront
+                                <div class="tooltip">Content Delivery Network (CDN). Serves static assets (images, CSS, JS) from locations close to users.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-insight">
+                    <div class="insight-icon">💡</div>
+                    <div class="insight-title">Sales Conversation Starter:</div>
+                    <p>"I see you're looking to build an e-commerce platform. Based on what you've shared about expected traffic and team size, I'd recommend starting with a modern stack like React frontend with Node.js backend on AWS. This gives you the flexibility to scale during Black Friday while keeping costs manageable. Would you like me to walk through how each layer addresses your specific requirements?"</p>
+                </div>
+
+                <button class="next-btn" onclick="completeModule('module1')">✓ Complete This Module</button>
+            </div>
+        </div>
+
+        <!-- Module 2: Open-Source vs Licensed -->
+        <div id="module2" class="module-content">
+            <div class="section-header">
+                <h2 class="section-title">🆚 Open-Source vs Licensed Technologies</h2>
+                <p>Interactive cost scenarios and decision frameworks</p>
+                <button class="back-btn" onclick="backToModules()">← Back to Modules</button>
+            </div>
+
+            <div class="scenario-container">
+                <h3>Compare Real-World Scenarios</h3>
+                <p style="margin-bottom: 2rem;">Click through different technology choices and see total cost implications.</p>
+
+                <div class="scenario-step active" id="os-step1">
+                    <div class="client-card">
+                        <div class="client-quote">"We need a database for our new CRM system. We have 200 employees and expect to grow to 400 in two years."</div>
+                        <div class="client-meta">— Sarah Chen, CTO at MidTech Manufacturing (350 employees)</div>
+                    </div>
+
+                    <h4 style="margin: 2rem 0 1rem 0;">Option 1: Open-Source Database (PostgreSQL)</h4>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Cost Component</th>
+                            <th>Year 1</th>
+                            <th>Year 2-3</th>
+                            <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Software License</strong></td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td><span class="badge badge-opensource">FREE</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>AWS RDS Hosting</strong></td>
+                            <td>$3,600</td>
+                            <td>$7,200</td>
+                            <td>Managed service, auto-scaling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DBA Support</strong></td>
+                            <td>$15,000</td>
+                            <td>$20,000</td>
+                            <td>Part-time consultant</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monitoring Tools</strong></td>
+                            <td>$2,400</td>
+                            <td>$2,400</td>
+                            <td>Datadog for performance</td>
+                        </tr>
+                        <tr style="background: #e8f5e9; font-weight: bold;">
+                            <td><strong>TOTAL</strong></td>
+                            <td><strong>$21,000</strong></td>
+                            <td><strong>$29,600</strong></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <h4 style="margin: 2rem 0 1rem 0;">Option 2: Licensed Database (Oracle)</h4>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Cost Component</th>
+                            <th>Year 1</th>
+                            <th>Year 2-3</th>
+                            <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Software License</strong></td>
+                            <td>$47,500</td>
+                            <td>$0</td>
+                            <td><span class="badge badge-licensed">PERPETUAL</span> Named User Plus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Annual Support</strong></td>
+                            <td>$10,450</td>
+                            <td>$10,450</td>
+                            <td>22% of license cost</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Infrastructure</strong></td>
+                            <td>$8,000</td>
+                            <td>$8,000</td>
+                            <td>On-premise servers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DBA Support</strong></td>
+                            <td>$25,000</td>
+                            <td>$25,000</td>
+                            <td>Oracle-certified DBA</td>
+                        </tr>
+                        <tr style="background: #ffebee; font-weight: bold;">
+                            <td><strong>TOTAL</strong></td>
+                            <td><strong>$90,950</strong></td>
+                            <td><strong>$43,450</strong></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <div class="key-insight">
+                        <div class="insight-icon">💰</div>
+                        <div class="insight-title">3-Year TCO Analysis:</div>
+                        <p><strong>PostgreSQL:</strong> $80,200 total | <strong>Oracle:</strong> $177,850 total</p>
+                        <p><strong>Savings with PostgreSQL: $97,650 (55% less expensive)</strong></p>
+                    </div>
+
+                    <button class="next-btn" onclick="nextStep('os-step1', 'os-step2')">Next: When Oracle Makes Sense →</button>
+                </div>
+
+                <div class="scenario-step" id="os-step2">
+                    <h3>But Wait... When IS Licensed Software the Right Choice?</h3>
+                    
+                    <div class="client-card">
+                        <div class="client-quote">"We're a healthcare company with HIPAA compliance requirements. Our data is mission-critical and we need 24/7 vendor support with guaranteed SLAs."</div>
+                        <div class="client-meta">— James Rodriguez, VP of IT at HealthCare Solutions (600 employees)</div>
+                    </div>
+
+                    <h4 style="margin: 2rem 0 1rem 0;">Licensed Software Makes Sense When:</h4>
+                    
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Factor</th>
+                            <th>Why Licensed Wins</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Compliance Requirements</strong></td>
+                            <td>Vendor accountability, audit trails, certified compliance</td>
+                            <td>Healthcare (HIPAA), Finance (SOX, PCI-DSS)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mission-Critical Systems</strong></td>
+                            <td>Guaranteed SLAs, 24/7 support, fast issue resolution</td>
+                            <td>Banking transactions, airline reservations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enterprise Features</strong></td>
+                            <td>Built-in advanced features vs. building custom</td>
+                            <td>Oracle RAC clustering, SAP supply chain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Legacy Integration</strong></td>
+                            <td>Existing vendor ecosystem, proven compatibility</td>
+                            <td>Oracle apps + Oracle DB, Microsoft stack</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Limited In-House Expertise</strong></td>
+                            <td>Vendor training, documentation, support included</td>
+                            <td>Small IT teams, specialized requirements</td>
+                        </tr>
+                    </table>
+
+                    <div class="key-insight">
+                        <div class="insight-icon">🎯</div>
+                        <div class="insight-title">The Hybrid Approach (Most Common):</div>
+                        <p>Many mid-size companies use BOTH:</p>
+                        <ul style="margin-top: 1rem; line-height: 2;">
+                            <li>✓ <strong>Licensed:</strong> Core business systems (ERP, CRM) where downtime = lost revenue</li>
+                            <li>✓ <strong>Open-Source:</strong> Supporting systems (web apps, analytics, dev tools)</li>
+                            <li>✓ <strong>Example:</strong> Salesforce CRM + PostgreSQL data warehouse + Linux servers</li>
+                        </ul>
+                    </div>
+
+                    <button class="next-btn" onclick="completeModule('module2')">✓ Complete This Module</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: Modernization Pathways -->
+        <div id="module3" class="module-content">
+            <div class="section-header">
+                <h2 class="section-title">🗺️ Modernization Pathways</h2>
+                <p>Interactive decision trees for migration strategies</p>
+                <button class="back-btn" onclick="backToModules()">← Back to Modules</button>
+            </div>
+
+            <div class="scenario-container">
+                <h3>Navigate the Modernization Decision Tree</h3>
+                <p style="margin-bottom: 2rem;">Answer questions about your client's situation to recommend the right approach.</p>
+
+                <div class="decision-tree">
+                    <div class="decision-node">
+                        <div class="decision-question">❓ What's driving the modernization?</div>
+                        <div class="decision-options">
+                            <div class="decision-option" onclick="showDecision('result-cost')">
+                                💰 Reduce Infrastructure Costs
+                            </div>
+                            <div class="decision-option" onclick="showDecision('result-scale')">
+                                📈 Handle Growth/Scale
+                            </div>
+                            <div class="decision-option" onclick="showDecision('result-features')">
+                                ⚡ Add Modern Features
+                            </div>
+                            <div class="decision-option" onclick="showDecision('result-speed')">
+                                🚀 Increase Release Speed
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="result-cost" class="decision-result">
+                        <div class="result-title">✓ Cost Optimization Path</div>
+                        <h4>Recommended: Lift & Shift to Cloud (Re-hosting)</h4>
+                        <p><strong>Strategy:</strong> Move existing application to cloud with minimal changes</p>
+                        
+                        <h4 style="margin-top: 1.5rem;">Migration Steps:</h4>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <div class="tech-name">Week 1-2</div>
+                                <div class="tech-type">Assessment & Planning</div>
+                                <div class="tooltip">Inventory apps, dependencies, and data. Create migration roadmap.</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Week 3-4</div>
+                                <div class="tech-type">Pilot Migration</div>
+                                <div class="tooltip">Move non-critical app first. Test and refine process.</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Week 5-8</div>
+                                <div class="tech-type">Production Migration</div>
+                                <div class="tooltip">Move apps in waves. Minimize downtime with careful cutover.</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Week 9-12</div>
+                                <div class="tech-type">Optimize & Monitor</div>
+                                <div class="tooltip">Right-size instances. Set up monitoring and cost controls.</div>
+                            </div>
+                        </div>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">💡</div>
+                            <div class="insight-title">Expected Savings:</div>
+                            <p>• 30-40% reduction in infrastructure costs<br>
+                            • Eliminate hardware refresh cycles<br>
+                            • Pay only for what you use<br>
+                            • Example: $50K/month on-premise → $30K/month cloud</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetDecisions()">Try Another Scenario</button>
+                    </div>
+
+                    <div id="result-scale" class="decision-result">
+                        <div class="result-title">✓ Scalability Path</div>
+                        <h4>Recommended: Re-architecting to Microservices</h4>
+                        <p><strong>Strategy:</strong> Break monolithic app into independent services that scale separately</p>
+                        
+                        <div class="architecture-diagram">
+                            <h4>Before: Monolith (Single Application)</h4>
+                            <div style="background: #ffebee; padding: 2rem; border-radius: 12px; text-align: center; margin: 1rem 0;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+                                <strong>All-in-One Application</strong>
+                                <p style="margin-top: 0.5rem;">User Management + Products + Orders + Payments<br>Must scale everything together, even if only orders are busy</p>
+                            </div>
+
+                            <div class="diagram-arrow">↓ TRANSFORM ↓</div>
+
+                            <h4>After: Microservices (Independent Services)</h4>
+                            <div class="layer-items">
+                                <div class="layer-box">User Service<div class="tooltip">Scale: 2 instances - low traffic</div></div>
+                                <div class="layer-box">Product Service<div class="tooltip">Scale: 3 instances - medium traffic</div></div>
+                                <div class="layer-box">Order Service<div class="tooltip">Scale: 10 instances - high traffic during sales</div></div>
+                                <div class="layer-box">Payment Service<div class="tooltip">Scale: 5 instances - secure, isolated</div></div>
+                            </div>
+                        </div>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">📊</div>
+                            <div class="insight-title">Business Impact:</div>
+                            <p>• Handle 10x traffic spikes without full system overhaul<br>
+                            • Deploy updates to one service without touching others<br>
+                            • Teams can work independently on different services<br>
+                            • Timeline: 6-12 months for full transformation</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetDecisions()">Try Another Scenario</button>
+                    </div>
+
+                    <div id="result-features" class="decision-result">
+                        <div class="result-title">✓ Feature Enhancement Path</div>
+                        <h4>Recommended: Refactoring + Modern Frontend</h4>
+                        <p><strong>Strategy:</strong> Update UI layer and gradually refactor backend</p>
+                        
+                        <h4 style="margin-top: 1.5rem;">Phased Approach:</h4>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Phase</th>
+                                <th>Focus</th>
+                                <th>Timeline</th>
+                                <th>User Impact</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 1</strong></td>
+                                <td>Modern React frontend, keep backend as-is</td>
+                                <td>2-3 months</td>
+                                <td>✨ Better UX, mobile-friendly</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 2</strong></td>
+                                <td>Add API layer between frontend/backend</td>
+                                <td>1-2 months</td>
+                                <td>🔌 Enable mobile app, integrations</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 3</strong></td>
+                                <td>Refactor backend services incrementally</td>
+                                <td>4-6 months</td>
+                                <td>⚡ Faster features, better performance</td>
+                            </tr>
+                        </table>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">🎯</div>
+                            <div class="insight-title">Why This Works:</div>
+                            <p>• Users see improvements immediately (Phase 1)<br>
+                            • Lower risk - backend still works during transition<br>
+                            • Can pause between phases based on budget/priority<br>
+                            • Enables modern features: real-time updates, PWA, AI integration</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetDecisions()">Try Another Scenario</button>
+                    </div>
+
+                    <div id="result-speed" class="decision-result">
+                        <div class="result-title">✓ DevOps Transformation Path</div>
+                        <h4>Recommended: CI/CD Pipeline + Infrastructure as Code</h4>
+                        <p><strong>Strategy:</strong> Automate deployment and infrastructure management</p>
+                        
+                        <div class="architecture-diagram">
+                            <h4>Before: Manual Deployments</h4>
+                            <div style="background: #ffebee; padding: 1.5rem; border-radius: 12px; margin: 1rem 0;">
+                                <p>👨‍💻 Developer writes code → 📧 Email to ops team → ⏰ Wait 3 days → 🔧 Manual server setup → 🚀 Deploy (hope it works) → 🐛 Bugs found → 🔄 Repeat</p>
+                                <p style="margin-top: 1rem; color: #d32f2f;"><strong>Result: 2-3 weeks from code to production</strong></p>
+                            </div>
+
+                            <div class="diagram-arrow">↓ TRANSFORM ↓</div>
+
+                            <h4>After: Automated CI/CD</h4>
+                            <div class="layer-items">
+                                <div class="layer-box">
+                                    Git Push
+                                    <div class="tooltip">Developer commits code to repository</div>
+                                </div>
+                                <div class="layer-box">
+                                    Auto Tests
+                                    <div class="tooltip">Automated tests run in 5 min</div>
+                                </div>
+                                <div class="layer-box">
+                                    Auto Build
+                                    <div class="tooltip">Docker container created</div>
+                                </div>
+                                <div class="layer-box">
+                                    Auto Deploy
+                                    <div class="tooltip">Kubernetes deploys to production</div>
+                                </div>
+                            </div>
+                            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 12px; margin: 1rem 0;">
+                                <p style="color: #2e7d32;"><strong>Result: 30 minutes from code to production</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">⚡</div>
+                            <div class="insight-title">Business Impact:</div>
+                            <p>• Deploy multiple times per day instead of per month<br>
+                            • Catch bugs before they reach customers<br>
+                            • Rollback bad deployments in seconds<br>
+                            • Developers spend time on features, not deployment headaches</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetDecisions()">Try Another Scenario</button>
+                    </div>
+                </div>
+
+                <button class="next-btn" onclick="completeModule('module3')" style="margin-top: 2rem;">✓ Complete This Module</button>
+            </div>
+        </div>
+
+        <!-- Module 4: Client Scenarios -->
+        <div id="module4" class="module-content">
+            <div class="section-header">
+                <h2 class="section-title">🎯 Real Client Scenarios</h2>
+                <p>Click through realistic mid-size company challenges</p>
+                <button class="back-btn" onclick="backToModules()">← Back to Modules</button>
+            </div>
+
+            <div class="scenario-container">
+                <div class="scenario-header">
+                    <div class="scenario-icon">🏭</div>
+                    <div class="scenario-title">Scenario 1: Manufacturing Company</div>
+                </div>
+
+                <div class="scenario-step active" id="client-step1">
+                    <div class="client-card">
+                        <div class="client-quote">"Our legacy inventory system is 15 years old, built on .NET Framework. It's slow, hard to maintain, and we can't integrate it with our new warehouse robots. We need to modernize but can't afford downtime."</div>
+                        <div class="client-meta">— Lisa Thompson, Director of Operations at PrecisionParts Manufacturing<br>
+                        450 employees | 3 warehouses | $75M annual revenue</div>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0;">Discovery Questions to Ask:</h3>
+                    <div class="tech-stack">
+                        <div class="tech-item">
+                            <div class="tech-name">Current Tech Stack?</div>
+                            <div class="tech-type">Click to reveal</div>
+                            <div class="tooltip">Answer: .NET Framework 4.5, SQL Server 2012, Windows Server on-premise, VB6 barcode scanners</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-name">Integration Needs?</div>
+                            <div class="tech-type">Click to reveal</div>
+                            <div class="tooltip">Need to connect: Warehouse robots (API), E-commerce site (REST), Supplier systems (EDI), Mobile scanners</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-name">Budget & Timeline?</div>
+                            <div class="tech-type">Click to reveal</div>
+                            <div class="tooltip">Budget: $300K-$500K | Timeline: 12-18 months | Cannot stop operations during upgrade</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-name">Internal Team?</div>
+                            <div class="tech-type">Click to reveal</div>
+                            <div class="tooltip">2 developers (both .NET), 1 IT manager, outsourced DBA. No cloud experience.</div>
+                        </div>
+                    </div>
+
+                    <button class="next-btn" onclick="nextStep('client-step1', 'client-step2')">Next: Recommend Solution →</button>
+                </div>
+
+                <div class="scenario-step" id="client-step2">
+                    <h3>Your Recommended Solution</h3>
+                    
+                    <div class="architecture-diagram">
+                        <h4>Phased Modernization Strategy</h4>
+                        
+                        <div class="diagram-layer">
+                            <div class="layer-title">Phase 1: Strangler Fig Pattern (Months 1-6)</div>
+                            <p style="margin-bottom: 1rem; color: #666;">Build new system alongside old one, gradually migrate features</p>
+                            <div class="layer-items">
+                                <div class="layer-box">
+                                    New .NET 8 API Layer
+                                    <div class="tooltip">Modern API wraps legacy system. Robots/e-commerce connect here first.</div>
+                                </div>
+                                <div class="layer-box">
+                                    Keep Legacy System
+                                    <div class="tooltip">Old system continues running. Zero downtime for operations.</div>
+                                </div>
+                                <div class="layer-box">
+                                    API Gateway
+                                    <div class="tooltip">Routes requests to new or old system based on feature availability.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="diagram-layer">
+                            <div class="layer-title">Phase 2: Feature Migration (Months 7-12)</div>
+                            <p style="margin-bottom: 1rem; color: #666;">Rebuild features one at a time in new system</p>
+                            <div class="layer-items">
+                                <div class="layer-box">
+                                    Cloud-Native App
+                                    <div class="tooltip">React frontend + .NET 8 microservices on Azure. Familiar tech for team.</div>
+                                </div>
+                                <div class="layer-box">
+                                    Azure SQL
+                                    <div class="tooltip">Managed database. Keep SQL Server for team familiarity, but in cloud.</div>
+                                </div>
+                                <div class="layer-box">
+                                    Real-time Sync
+                                    <div class="tooltip">Data syncs between old/new systems during transition.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="diagram-layer">
+                            <div class="layer-title">Phase 3: Complete Migration (Months 13-18)</div>
+                            <div class="layer-items">
+                                <div class="layer-box">
+                                    Legacy Shutdown
+                                    <div class="tooltip">All features moved. Old system decommissioned.</div>
+                                </div>
+                                <div class="layer-box">
+                                    Mobile Apps
+                                    <div class="tooltip">New React Native apps for warehouse workers.</div>
+                                </div>
+                                <div class="layer-box">
+                                    IoT Integration
+                                    <div class="tooltip">Real-time data from robots, sensors, RFID tags.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-insight">
+                        <div class="insight-icon">💰</div>
+                        <div class="insight-title">Investment Breakdown:</div>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Component</th>
+                                <th>Cost</th>
+                                <th>Why This Matters</th>
+                            </tr>
+                            <tr>
+                                <td>Discovery & Architecture</td>
+                                <td>$45,000</td>
+                                <td>Detailed migration plan prevents surprises</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 1: API Layer</td>
+                                <td>$80,000</td>
+                                <td>Quick win - integrations working in 6 months</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 2-3: Full Migration</td>
+                                <td>$220,000</td>
+                                <td>New features + data migration + testing</td>
+                            </tr>
+                            <tr>
+                                <td>Training & Support</td>
+                                <td>$35,000</td>
+                                <td>Team learns Azure and modern .NET</td>
+                            </tr>
+                            <tr>
+                                <td>Contingency (15%)</td>
+                                <td>$57,000</td>
+                                <td>Buffer for unknowns in legacy system</td>
+                            </tr>
+                            <tr style="background: #e8f5e9; font-weight: bold;">
+                                <td><strong>TOTAL</strong></td>
+                                <td><strong>$437,000</strong></td>
+                                <td>Within budget, phased payments</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0;">Why This Approach Wins the Deal:</h3>
+                    <div class="tech-stack">
+                        <div class="tech-item" style="border-color: var(--success);">
+                            <div class="tech-name">✓ Zero Downtime</div>
+                            <div class="tech-type">Operations never stop</div>
+                        </div>
+                        <div class="tech-item" style="border-color: var(--success);">
+                            <div class="tech-name">✓ Quick ROI</div>
+                            <div class="tech-type">Robot integration in 6 months</div>
+                        </div>
+                        <div class="tech-item" style="border-color: var(--success);">
+                            <div class="tech-name">✓ Familiar Tech</div>
+                            <div class="tech-type">Team already knows .NET</div>
+                        </div>
+                        <div class="tech-item" style="border-color: var(--success);">
+                            <div class="tech-name">✓ Controlled Risk</div>
+                            <div class="tech-type">Can pause between phases</div>
+                        </div>
+                    </div>
+
+                    <button class="next-btn" onclick="nextStep('client-step2', 'client-step3')">Next Scenario: SaaS Startup →</button>
+                </div>
+
+                <div class="scenario-step" id="client-step3">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">📱</div>
+                        <div class="scenario-title">Scenario 2: B2B SaaS Startup</div>
+                    </div>
+
+                    <div class="client-card">
+                        <div class="client-quote">"We've grown from 5 to 200 customers in 6 months. Our application is crashing during peak hours, and we're losing deals because we can't onboard new customers fast enough. We need to scale, like, yesterday."</div>
+                        <div class="client-meta">— Marcus Williams, CTO at TeamSync (project management SaaS)<br>
+                        35 employees | $3M ARR → targeting $10M | 200 B2B customers</div>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0;">Technical Pain Points Discovered:</h3>
+                    
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Issue</th>
+                            <th>Current State</th>
+                            <th>Business Impact</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Architecture</strong></td>
+                            <td>Ruby on Rails monolith on 2 Heroku dynos</td>
+                            <td>Can't scale individual features</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>Single PostgreSQL instance, no read replicas</td>
+                            <td>Reports slow down entire app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Storage</strong></td>
+                            <td>Local disk, lost on server restart</td>
+                            <td>Customer files disappearing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Background Jobs</strong></td>
+                            <td>Delayed Job, single worker</td>
+                            <td>Email notifications delayed 30+ minutes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monitoring</strong></td>
+                            <td>Basic Heroku metrics only</td>
+                            <td>Don't know why it's crashing</td>
+                        </tr>
+                    </table>
+
+                    <div class="key-insight">
+                        <div class="insight-icon">🚨</div>
+                        <div class="insight-title">The Real Problem:</div>
+                        <p>This isn't a "rewrite everything" situation. It's a classic scaling problem. They need tactical improvements FAST, not a 12-month rebuild. Budget: $150K-$200K over 6 months.</p>
+                    </div>
+
+                    <button class="next-btn" onclick="nextStep('client-step3', 'client-step4')">See the Solution →</button>
+                </div>
+
+                <div class="scenario-step" id="client-step4">
+                    <h3>Tactical Scaling Plan (6 Month Roadmap)</h3>
+
+                    <div class="architecture-diagram">
+                        <h4>Month 1-2: Quick Wins (Immediate Impact)</h4>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                Scale Horizontally
+                                <div class="tooltip">2 dynos → 8 dynos with load balancing. Instant capacity increase.</div>
+                            </div>
+                            <div class="layer-box">
+                                Database Replicas
+                                <div class="tooltip">Add 2 read replicas. Route reports to replicas, free up main DB.</div>
+                            </div>
+                            <div class="layer-box">
+                                S3 for Files
+                                <div class="tooltip">Move file storage to AWS S3. No more lost files.</div>
+                            </div>
+                            <div class="layer-box">
+                                Redis Cache
+                                <div class="tooltip">Cache frequently-accessed data. 80% reduction in DB queries.</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-radius: 8px;"><strong>Cost: $35K | Impact: Handle 5x traffic immediately</strong></p>
+
+                        <h4 style="margin-top: 2rem;">Month 3-4: Performance & Reliability</h4>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                Sidekiq Workers
+                                <div class="tooltip">Replace Delayed Job. 10 parallel workers handle background jobs.</div>
+                            </div>
+                            <div class="layer-box">
+                                APM Tools
+                                <div class="tooltip">New Relic for monitoring. See exactly where slowdowns happen.</div>
+                            </div>
+                            <div class="layer-box">
+                                CDN Setup
+                                <div class="tooltip">CloudFront for static assets. Global users get fast load times.</div>
+                            </div>
+                            <div class="layer-box">
+                                Database Indexing
+                                <div class="tooltip">Audit slow queries, add indexes. 10x faster reports.</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-radius: 8px;"><strong>Cost: $45K | Impact: Sub-second page loads, reliable background jobs</strong></p>
+
+                        <h4 style="margin-top: 2rem;">Month 5-6: Future-Proofing</h4>
+                        <div class="layer-items">
+                            <div class="layer-box">
+                                Extract Services
+                                <div class="tooltip">Move real-time notifications to separate Node.js service.</div>
+                            </div>
+                            <div class="layer-box">
+                                Auto-Scaling
+                                <div class="tooltip">Configure auto-scaling rules. Handle traffic spikes automatically.</div>
+                            </div>
+                            <div class="layer-box">
+                                CI/CD Pipeline
+                                <div class="tooltip">GitHub Actions for automated testing and deployment.</div>
+                            </div>
+                            <div class="layer-box">
+                                Error Tracking
+                                <div class="tooltip">Sentry for error monitoring. Fix bugs before customers report them.</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-radius: 8px;"><strong>Cost: $50K | Impact: Ready for 10x growth, deploy multiple times per day</strong></p>
+                    </div>
+
+                    <div class="key-insight">
+                        <div class="insight-icon">🎯</div>
+                        <div class="insight-title">Why This Wins vs. "Rebuild from Scratch":</div>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Factor</th>
+                                <th>This Approach</th>
+                                <th>Full Rewrite</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Time to Results</strong></td>
+                                <td style="background: #e8f5e9;">✓ Month 1</td>
+                                <td style="background: #ffebee;">Month 12+</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost</strong></td>
+                                <td style="background: #e8f5e9;">✓ $130K</td>
+                                <td style="background: #ffebee;">$500K+</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Risk</strong></td>
+                                <td style="background: #e8f5e9;">✓ Low - incremental</td>
+                                <td style="background: #ffebee;">High - big bang</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Feature Development</strong></td>
+                                <td style="background: #e8f5e9;">✓ Continues throughout</td>
+                                <td style="background: #ffebee;">Paused during rewrite</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <button class="next-btn" onclick="completeModule('module4')">✓ Complete This Module</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 5: Digital Transformation -->
+        <div id="module5" class="module-content">
+            <div class="section-header">
+                <h2 class="section-title">🚀 Digital Transformation Visualized</h2>
+                <p>Before/After scenarios that bring transformation to life</p>
+                <button class="back-btn" onclick="backToModules()">← Back to Modules</button>
+            </div>
+
+            <div class="scenario-container">
+                <h3>Transformation Journey: Regional Bank</h3>
+                
+                <div class="client-card">
+                    <div class="client-quote">"Our customers are leaving for digital-first banks. We have 150 branches but our online banking looks like it's from 2010. We need to transform or we'll be irrelevant in 5 years."</div>
+                    <div class="client-meta">— David Park, Chief Digital Officer at Community First Bank<br>
+                    $8B in assets | 150 branches | 500,000 customers | 850 employees</div>
+                </div>
+
+                <h3 style="margin: 2.5rem 0 1rem 0;">Before Digital Transformation</h3>
+                <div class="architecture-diagram" style="background: #ffebee; border: 2px solid #d32f2f;">
+                    <div class="diagram-layer">
+                        <div class="layer-title" style="color: #d32f2f;">Customer Experience Pain Points</div>
+                        <table class="comparison-table">
+                            <tr>
+                                <td><strong>Account Opening</strong></td>
+                                <td>Must visit branch in person. 45-minute process. 7-10 days for approval. Paper forms.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Loan Applications</strong></td>
+                                <td>20 pages of paper forms. Multiple branch visits. 3-4 weeks approval time. Can't check status online.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mobile App</strong></td>
+                                <td>Basic only - check balance, view transactions. Can't deposit checks, transfer money, or pay bills.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Customer Service</strong></td>
+                                <td>Call center hours: M-F 8am-5pm. Average wait: 18 minutes. Agents manually look up info in 3 different systems.</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="diagram-layer">
+                        <div class="layer-title" style="color: #d32f2f;">Technical Architecture</div>
+                        <div style="padding: 1.5rem; background: white; border-radius: 8px;">
+                            <p>🏛️ <strong>Core Banking:</strong> AS/400 mainframe from 1995 (COBOL)<br>
+                            🖥️ <strong>Branch Systems:</strong> Windows desktop apps, not cloud-connected<br>
+                            📊 <strong>Data:</strong> Siloed across 15 different databases<br>
+                            🔒 <strong>Security:</strong> VPN required, limited mobile access<br>
+                            🔧 <strong>Integration:</strong> Batch jobs run nightly, no real-time sync</p>
+                        </div>
+                    </div>
+
+                    <div class="key-insight" style="background: #ffebee; border-color: #d32f2f;">
+                        <div class="insight-icon">📉</div>
+                        <div class="insight-title" style="color: #d32f2f;">Business Impact of NOT Transforming:</div>
+                        <p>• Losing 500 customers/month to digital banks<br>
+                        • Cost per transaction: $4.25 (industry average: $0.60)<br>
+                        • Can't launch new products - takes 18 months due to legacy systems<br>
+                        • Millennials and Gen Z won't bank here - no digital experience</p>
+                    </div>
+                </div>
+
+                <div class="diagram-arrow" style="font-size: 3rem;">↓ 18 MONTH TRANSFORMATION ↓</div>
+
+                <h3 style="margin: 2.5rem 0 1rem 0;">After Digital Transformation</h3>
+                <div class="architecture-diagram" style="background: #e8f5e9; border: 2px solid #2e7d32;">
+                    <div class="diagram-layer">
+                        <div class="layer-title" style="color: #2e7d32;">Transformed Customer Experience</div>
+                        <table class="comparison-table">
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>Account Opening</strong></td>
+                                <td>✅ 100% online in 10 minutes. Instant approval for 70% of applicants. Video verification for rest. Mobile driver's license scan.</td>
+                            </tr>
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>Loan Applications</strong></td>
+                                <td>✅ Digital application with document upload. Real-time status tracking. Pre-approval in 24 hours. E-signature for closing.</td>
+                            </tr>
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>Mobile App</strong></td>
+                                <td>✅ Full banking: mobile check deposit, P2P payments, bill pay, card controls, spending insights, savings goals.</td>
+                            </tr>
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>Customer Service</strong></td>
+                                <td>✅ 24/7 AI chatbot handles 60% of inquiries. Video banking for complex issues. Average wait: 2 minutes. Agents see unified customer view.</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="diagram-layer">
+                        <div class="layer-title" style="color: #2e7d32;">Modern Technical Architecture</div>
+                        <div class="layer-items">
+                            <div class="layer-box" style="background: linear-gradient(135deg, #2e7d32, #00897b);">
+                                Cloud-Native Core
+                                <div class="tooltip">Microservices on AWS. Core banking APIs wrap legacy mainframe.</div>
+                            </div>
+                            <div class="layer-box" style="background: linear-gradient(135deg, #2e7d32, #00897b);">
+                                Mobile-First
+                                <div class="tooltip">React Native app. 70% of transactions now mobile.</div>
+                            </div>
+                            <div class="layer-box" style="background: linear-gradient(135deg, #2e7d32, #00897b);">
+                                Real-Time Data
+                                <div class="tooltip">Apache Kafka streams. Instant balance updates, fraud detection.</div>
+                            </div>
+                            <div class="layer-box" style="background: linear-gradient(135deg, #2e7d32, #00897b);">
+                                AI/ML
+                                <div class="tooltip">Chatbot, fraud detection, personalized offers.</div>
+                            </div>
+                            <div class="layer-box" style="background: linear-gradient(135deg, #2e7d32, #00897b);">
+                                API Platform
+                                <div class="tooltip">Open banking APIs. Partner integrations (Plaid, Stripe).</div>
+                            </div>
+                            <div class="layer-box" style="background: linear-gradient(135deg, #2e7d32, #00897b);">
+                                Cloud Security
+                                <div class="tooltip">Zero-trust architecture. Biometric authentication. Real-time threat detection.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-insight" style="background: #e8f5e9; border-color: #2e7d32;">
+                        <div class="insight-icon">📈</div>
+                        <div class="insight-title" style="color: #2e7d32;">Business Results After 12 Months:</div>
+                        <table class="comparison-table">
+                            <tr style="background: white;">
+                                <th>Metric</th>
+                                <th>Before</th>
+                                <th>After</th>
+                                <th>Impact</th>
+                            </tr>
+                            <tr>
+                                <td><strong>New Accounts/Month</strong></td>
+                                <td>800</td>
+                                <td style="color: #2e7d32;"><strong>2,400</strong></td>
+                                <td>+200%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mobile Banking Users</strong></td>
+                                <td>65,000 (13%)</td>
+                                <td style="color: #2e7d32;"><strong>380,000 (76%)</strong></td>
+                                <td>+485%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost per Transaction</strong></td>
+                                <td>$4.25</td>
+                                <td style="color: #2e7d32;"><strong>$0.85</strong></td>
+                                <td>-80%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NPS Score</strong></td>
+                                <td>32</td>
+                                <td style="color: #2e7d32;"><strong>68</strong></td>
+                                <td>+113%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Time to Launch Product</strong></td>
+                                <td>18 months</td>
+                                <td style="color: #2e7d32;"><strong>6 weeks</strong></td>
+                                <td>-92%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <h3 style="margin: 2.5rem 0 1rem 0;">Transformation Investment Breakdown</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Phase</th>
+                        <th>Timeline</th>
+                        <th>Investment</th>
+                        <th>Key Deliverables</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 1: Foundation</strong></td>
+                        <td>Months 1-6</td>
+                        <td>$2.8M</td>
+                        <td>Cloud infrastructure, API layer, new mobile app</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 2: Digitization</strong></td>
+                        <td>Months 7-12</td>
+                        <td>$3.2M</td>
+                        <td>Digital account opening, loan apps, chatbot</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 3: Innovation</strong></td>
+                        <td>Months 13-18</td>
+                        <td>$2.5M</td>
+                        <td>AI features, open banking, advanced analytics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Change Management</strong></td>
+                        <td>Ongoing</td>
+                        <td>$1.2M</td>
+                        <td>Training, process redesign, culture shift</td>
+                    </tr>
+                    <tr style="background: #e8f5e9; font-weight: bold;">
+                        <td><strong>TOTAL INVESTMENT</strong></td>
+                        <td>18 months</td>
+                        <td><strong>$9.7M</strong></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background: #fff3e0;">
+                        <td colspan="3"><strong>Projected 3-Year Savings from Efficiency</strong></td>
+                        <td><strong>$18.5M</strong></td>
+                    </tr>
+                    <tr style="background: #e3f2fd;">
+                        <td colspan="3"><strong>Projected 3-Year Revenue from New Customers</strong></td>
+                        <td><strong>$42M</strong></td>
+                    </tr>
+                </table>
+
+                <div class="key-insight">
+                    <div class="insight-icon">🎯</div>
+                    <div class="insight-title">How to Sell This Transformation:</div>
+                    <p><strong>Don't lead with "digital transformation" - lead with business outcomes:</strong></p>
+                    <ul style="margin-top: 1rem; line-height: 2;">
+                        <li>❌ "You need to modernize your legacy systems"</li>
+                        <li>✅ "We can triple your account growth while cutting costs 80%"</li>
+                        <li>❌ "Let's build a microservices architecture"</li>
+                        <li>✅ "Launch new products in weeks instead of months - capture market opportunities faster"</li>
+                        <li>❌ "Your COBOL mainframe is outdated"</li>
+                        <li>✅ "Your competitors are winning millennial customers. Here's how we'll win them back"</li>
+                    </ul>
+                </div>
+
+                <button class="next-btn" onclick="completeModule('module5')">✓ Complete This Module</button>
+            </div>
+        </div>
+
+        <!-- Module 6: App Development Guide -->
+        <div id="module6" class="module-content">
+            <div class="section-header">
+                <h2 class="section-title">📱 App Development Decision Guide</h2>
+                <p>Interactive tool to recommend the right approach</p>
+                <button class="back-btn" onclick="backToModules()">← Back to Modules</button>
+            </div>
+
+            <div class="scenario-container">
+                <h3>Interactive App Strategy Recommender</h3>
+                <p style="margin-bottom: 2rem;">Answer questions about your client's needs to get a tailored recommendation.</p>
+
+                <div class="decision-tree">
+                    <div class="decision-node">
+                        <div class="decision-question">🎯 What type of app does your client need?</div>
+                        <div class="decision-options">
+                            <div class="decision-option" onclick="showAppDecision('app-consumer')">
+                                Consumer App (B2C)
+                            </div>
+                            <div class="decision-option" onclick="showAppDecision('app-business')">
+                                Business Tool (B2B)
+                            </div>
+                            <div class="decision-option" onclick="showAppDecision('app-internal')">
+                                Internal Operations
+                            </div>
+                            <div class="decision-option" onclick="showAppDecision('app-ecommerce')">
+                                E-Commerce Platform
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="app-consumer" class="decision-result">
+                        <div class="result-title">✓ Consumer App (B2C) Strategy</div>
+                        
+                        <h4>Typical Requirements:</h4>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <div class="tech-name">Must Have</div>
+                                <div class="tech-type">Push notifications, social login, analytics, app store presence</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Performance</div>
+                                <div class="tech-type">Smooth animations, instant response, work offline</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Scale</div>
+                                <div class="tech-type">Handle viral growth, global users</div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 2rem;">Recommended Approach:</h4>
+                        
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Approach</th>
+                                <th>Tech Stack</th>
+                                <th>Timeline</th>
+                                <th>Cost (MVP)</th>
+                                <th>Best For</th>
+                            </tr>
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>🥇 React Native</strong></td>
+                                <td>React Native + Expo<br>Node.js backend<br>Firebase/AWS</td>
+                                <td>3-4 months</td>
+                                <td>$80K-$150K</td>
+                                <td><strong>Budget-conscious with fast timeline</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>🥈 Native iOS + Android</strong></td>
+                                <td>Swift + Kotlin<br>Separate codebases<br>Same backend</td>
+                                <td>5-6 months</td>
+                                <td>$150K-$250K</td>
+                                <td>Heavy graphics, gaming, maximum performance</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🥉 Flutter</strong></td>
+                                <td>Flutter (Dart)<br>Single codebase<br>Cloud backend</td>
+                                <td>3-4 months</td>
+                                <td>$70K-$140K</td>
+                                <td>Beautifully designed UI, startup budget</td>
+                            </tr>
+                        </table>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">💡</div>
+                            <div class="insight-title">Sales Positioning for Consumer Apps:</div>
+                            <p><strong>"React Native is the sweet spot for 80% of consumer apps:"</strong></p>
+                            <ul style="margin-top: 1rem; line-height: 2;">
+                                <li>✓ One codebase = 40% cost savings vs. native</li>
+                                <li>✓ Launch on iOS and Android simultaneously</li>
+                                <li>✓ Access to millions of npm packages</li>
+                                <li>✓ Easy to find developers (JavaScript knowledge)</li>
+                                <li>✓ Used by: Facebook, Instagram, Airbnb, UberEats</li>
+                            </ul>
+                            <p style="margin-top: 1rem;"><strong>Only recommend native when:</strong> AR/VR features, complex animations, gaming, or when performance is absolutely critical.</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetAppDecisions()">Try Another App Type</button>
+                    </div>
+
+                    <div id="app-business" class="decision-result">
+                        <div class="result-title">✓ Business Tool (B2B) Strategy</div>
+                        
+                        <h4>Typical Requirements:</h4>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <div class="tech-name">Integration</div>
+                                <div class="tech-type">Connect to existing systems (CRM, ERP, databases)</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Security</div>
+                                <div class="tech-type">Enterprise SSO, role-based access, audit logs</div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-name">Reliability</div>
+                                <div class="tech-type">99.9% uptime, data sync, offline mode</div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 2rem;">Decision Tree:</h4>
+
+                        <div class="architecture-diagram">
+                            <div class="diagram-layer">
+                                <div class="layer-title">Q1: Do employees need it on personal devices?</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>YES</strong> → Mobile app (React Native or Flutter)<br>
+                                        <em>Example: Field sales, delivery drivers, remote workers</em>
+                                    </div>
+                                    <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>NO</strong> → Web app (desktop-focused)<br>
+                                        <em>Example: Office workers, data entry, complex workflows</em>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-layer" style="margin-top: 2rem;">
+                                <div class="layer-title">Q2: How complex is the UI?</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>Simple forms & lists</strong> → Low-code platform (OutSystems, PowerApps)<br>
+                                        <strong>Timeline: 4-6 weeks</strong><br>
+                                        <strong>Cost: $30K-$60K</strong>
+                                    </div>
+                                    <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>Complex workflows</strong> → Custom development (React, Angular)<br>
+                                        <strong>Timeline: 3-6 months</strong><br>
+                                        <strong>Cost: $120K-$300K</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 2rem;">Recommended Stack for B2B:</h4>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Component</th>
+                                <th>Technology</th>
+                                <th>Why</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Frontend</strong></td>
+                                <td>React or Angular</td>
+                                <td>Enterprise-grade, mature ecosystem, good security</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Backend</strong></td>
+                                <td>Java Spring Boot or .NET Core</td>
+                                <td>Enterprise standards, strong typing, good for complex business logic</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Database</strong></td>
+                                <td>PostgreSQL or SQL Server</td>
+                                <td>ACID compliance, reliable, good for transactional data</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Authentication</strong></td>
+                                <td>Okta, Azure AD, or Auth0</td>
+                                <td>Enterprise SSO, SAML support, compliance certifications</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hosting</strong></td>
+                                <td>AWS or Azure (private cloud)</td>
+                                <td>Enterprise support, compliance certifications (SOC 2, HIPAA)</td>
+                            </tr>
+                        </table>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">🎯</div>
+                            <div class="insight-title">Winning B2B Deals:</div>
+                            <p><strong>B2B buyers care about different things than consumers:</strong></p>
+                            <ul style="margin-top: 1rem; line-height: 2;">
+                                <li>✓ <strong>Security & Compliance:</strong> Lead with SOC 2, GDPR, HIPAA if relevant</li>
+                                <li>✓ <strong>Integration:</strong> "Connects to your existing Salesforce/SAP/etc"</li>
+                                <li>✓ <strong>Support:</strong> SLAs, dedicated support, training included</li>
+                                <li>✓ <strong>Scalability:</strong> "Handles your 500 users today, 5,000 next year"</li>
+                                <li>✓ <strong>ROI:</strong> Show productivity gains, time saved, error reduction</li>
+                            </ul>
+                        </div>
+
+                        <button class="next-btn" onclick="resetAppDecisions()">Try Another App Type</button>
+                    </div>
+
+                    <div id="app-internal" class="decision-result">
+                        <div class="result-title">✓ Internal Operations App Strategy</div>
+                        
+                        <div class="key-insight">
+                            <div class="insight-icon">⚡</div>
+                            <div class="insight-title">Fast Track Recommendation: Low-Code Platform</div>
+                            <p><strong>For 70% of internal apps, low-code is the best choice:</strong></p>
+                        </div>
+
+                        <h4>Low-Code Platforms Comparison:</h4>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Platform</th>
+                                <th>Best For</th>
+                                <th>Timeline</th>
+                                <th>Cost</th>
+                                <th>Pros</th>
+                            </tr>
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>Microsoft PowerApps</strong></td>
+                                <td>Microsoft 365 shops</td>
+                                <td>2-4 weeks</td>
+                                <td>$20K-$40K</td>
+                                <td>Already licensed, easy SharePoint integration</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OutSystems</strong></td>
+                                <td>Complex enterprise apps</td>
+                                <td>6-10 weeks</td>
+                                <td>$60K-$120K</td>
+                                <td>Most powerful, handles complexity well</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mendix</strong></td>
+                                <td>Multi-platform needs</td>
+                                <td>4-8 weeks</td>
+                                <td>$40K-$80K</td>
+                                <td>Good mobile support, Siemens backing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Retool</strong></td>
+                                <td>Internal dashboards & admin tools</td>
+                                <td>1-3 weeks</td>
+                                <td>$15K-$30K</td>
+                                <td>Fastest for CRUD apps, great for startups</td>
+                            </tr>
+                        </table>
+
+                        <h4 style="margin-top: 2rem;">When to Use Custom Development Instead:</h4>
+                        <div class="tech-stack">
+                            <div class="tech-item" style="border-color: #ff6f00;">
+                                <div class="tech-name">❌ Low-Code Won't Work</div>
+                                <div class="tech-type">Complex algorithms, real-time processing, custom hardware integration</div>
+                            </div>
+                            <div class="tech-item" style="border-color: #ff6f00;">
+                                <div class="tech-name">❌ Performance Critical</div>
+                                <div class="tech-type">High-frequency trading, real-time analytics, video processing</div>
+                            </div>
+                            <div class="tech-item" style="border-color: #ff6f00;">
+                                <div class="tech-name">❌ Unique UX Needed</div>
+                                <div class="tech-type">Custom user experience that low-code can't replicate</div>
+                            </div>
+                        </div>
+
+                        <div class="architecture-diagram" style="margin-top: 2rem;">
+                            <h4>Example: Warehouse Management System</h4>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+                                <div>
+                                    <h5 style="color: #d32f2f; margin-bottom: 1rem;">❌ Custom Development</h5>
+                                    <div style="background: #ffebee; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>Timeline:</strong> 6-9 months<br>
+                                        <strong>Cost:</strong> $250K-$400K<br>
+                                        <strong>Team:</strong> 4-5 developers<br>
+                                        <strong>Risk:</strong> Scope creep, delays<br>
+                                        <strong>Maintenance:</strong> Ongoing dev costs
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 style="color: #2e7d32; margin-bottom: 1rem;">✓ OutSystems Low-Code</h5>
+                                    <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>Timeline:</strong> 8-10 weeks<br>
+                                        <strong>Cost:</strong> $80K-$120K<br>
+                                        <strong>Team:</strong> 1-2 developers<br>
+                                        <strong>Risk:</strong> Low, proven platform<br>
+                                        <strong>Maintenance:</strong> Business users can modify
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 2rem; padding: 1.5rem; background: #fff3e0; border-radius: 12px;">
+                                <strong>Features Included:</strong> Barcode scanning, inventory tracking, order management, reporting, mobile app for warehouse floor, integration with ERP
+                            </div>
+                        </div>
+
+                        <div class="key-insight">
+                            <div class="insight-icon">💰</div>
+                            <div class="insight-title">How to Pitch Low-Code:</div>
+                            <p><strong>"Think of low-code like buying a car vs. building one from scratch:"</strong></p>
+                            <ul style="margin-top: 1rem; line-height: 2;">
+                                <li>✓ 70% faster delivery - get value in weeks, not months</li>
+                                <li>✓ 50-60% lower cost than custom development</li>
+                                <li>✓ Your business users can make changes without developers</li>
+                                <li>✓ Lower maintenance costs - platform handles updates</li>
+                                <li>✓ Used by: Vanguard, Schneider Electric, Toyota</li>
+                            </ul>
+                            <p style="margin-top: 1rem;"><strong>Common objection:</strong> "Won't we be locked into the platform?"<br>
+                            <strong>Response:</strong> "For internal apps with 3-5 year lifespans, vendor lock-in is less risky than slow delivery. The speed-to-value far outweighs the switching risk. Plus, platforms like OutSystems let you export code if needed."</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetAppDecisions()">Try Another App Type</button>
+                    </div>
+
+                    <div id="app-ecommerce" class="decision-result">
+                        <div class="result-title">✓ E-Commerce Platform Strategy</div>
+                        
+                        <h4>The Build vs. Buy Decision:</h4>
+
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Approach</th>
+                                <th>Platform</th>
+                                <th>Best For</th>
+                                <th>Initial Cost</th>
+                                <th>Monthly Cost</th>
+                            </tr>
+                            <tr style="background: #e8f5e9;">
+                                <td><strong>🥇 SaaS Platform</strong></td>
+                                <td>Shopify Plus, BigCommerce</td>
+                                <td>Traditional retail, 95% of use cases</td>
+                                <td>$5K-$20K setup</td>
+                                <td>$2K-$10K</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🥈 Open-Source</strong></td>
+                                <td>Magento, WooCommerce</td>
+                                <td>Heavy customization needs, B2B</td>
+                                <td>$50K-$150K</td>
+                                <td>$5K-$15K</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🥉 Headless Commerce</strong></td>
+                                <td>Commercetools, Elastic Path</td>
+                                <td>Omnichannel, unique UX</td>
+                                <td>$100K-$300K</td>
+                                <td>$10K-$30K</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Custom Build</strong></td>
+                                <td>From scratch</td>
+                                <td>Unique business model (marketplace, subscription)</td>
+                                <td>$250K-$800K</td>
+                                <td>$20K-$50K</td>
+                            </tr>
+                        </table>
+
+                        <h4 style="margin-top: 2rem;">Decision Flowchart:</h4>
+                        <div class="architecture-diagram">
+                            <div class="diagram-layer">
+                                <div class="layer-title">Question 1: Is your business model standard retail?</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>YES</strong> - Standard retail (products, cart, checkout)<br>
+                                        <strong>→ Use Shopify Plus</strong><br>
+                                        <em>Fast, proven, handles 99% of needs out of box</em>
+                                    </div>
+                                    <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>NO</strong> - Unique model (marketplace, subscriptions, B2B complex pricing)<br>
+                                        <strong>→ Continue to Question 2</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="diagram-layer" style="margin-top: 1.5rem;">
+                                <div class="layer-title">Question 2: Do you need heavy customization?</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>MODERATE</strong> - Customize checkout, pricing rules, workflows<br>
+                                        <strong>→ Use Magento or WooCommerce</strong><br>
+                                        <em>Balance of flexibility and speed</em>
+                                    </div>
+                                    <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px;">
+                                        <strong>EXTREME</strong> - Completely unique UX, complex business rules<br>
+                                        <strong>→ Custom Development or Headless</strong><br>
+                                        <em>Full control, higher investment</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 2rem;">Real Example: Mid-Size Fashion Retailer</h4>
+                        <div class="client-card">
+                            <div class="client-quote">"We're a $25M fashion brand. Currently using basic Shopify, but we need custom fit recommendations, virtual try-on, and complex inventory management across 10 warehouse locations."</div>
+                            <div class="client-meta">— Jessica Martinez, COO at TrendStyle Fashion</div>
+                        </div>
+
+                        <div class="key-insight" style="margin-top: 1.5rem;">
+                            <div class="insight-icon">🎯</div>
+                            <div class="insight-title">Recommended: Headless Commerce (Shopify Plus backend + Custom React frontend)</div>
+                            <p><strong>Architecture:</strong></p>
+                            <ul style="margin-top: 1rem; line-height: 2;">
+                                <li>✓ <strong>Backend:</strong> Shopify Plus (handles cart, checkout, payments, inventory)</li>
+                                <li>✓ <strong>Frontend:</strong> Custom React app with Next.js (unique UX, fit recommendations)</li>
+                                <li>✓ <strong>AI Features:</strong> Custom ML models for fit recommendations and virtual try-on</li>
+                                <li>✓ <strong>Mobile App:</strong> React Native app sharing code with web</li>
+                            </ul>
+                            <p style="margin-top: 1rem;"><strong>Investment:</strong> $180K-$250K initial | 6-8 month timeline<br>
+                            <strong>Result:</strong> Custom experience where it matters, proven platform for critical functions</p>
+                        </div>
+
+                        <button class="next-btn" onclick="resetAppDecisions()">Try Another App Type</button>
+                    </div>
+                </div>
+
+                <button class="next-btn" onclick="completeModule('module6')" style="margin-top: 2rem;">✓ Complete This Module</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track completed modules
+        let completedModules = new Set();
+        const totalModules = 6;
+
+        function showModule(moduleId) {
+            // Hide navigation
+            document.getElementById('nav-modules').style.display = 'none';
+            
+            // Hide all modules
+            document.querySelectorAll('.module-content').forEach(m => {
+                m.classList.remove('active');
+            });
+            
+            // Show selected module
+            document.getElementById(moduleId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function backToModules() {
+            // Show navigation
+            document.getElementById('nav-modules').style.display = 'grid';
+            
+            // Hide all modules
+            document.querySelectorAll('.module-content').forEach(m => {
+                m.classList.remove('active');
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function completeModule(moduleId) {
+            completedModules.add(moduleId);
+            updateProgress();
+            
+            // Show completion feedback
+            alert('🎉 Module completed! Great work!');
+            
+            // Go back to modules
+            backToModules();
+        }
+
+        function updateProgress() {
+            const percent = Math.round((completedModules.size / totalModules) * 100);
+            document.getElementById('progress-percent').textContent = percent + '%';
+            document.getElementById('progress-fill').style.width = percent + '%';
+            
+            // Add completion badges to completed modules
+            completedModules.forEach(moduleId => {
+                const moduleNum = moduleId.replace('module', '');
+                const cards = document.querySelectorAll('.module-card');
+                const card = cards[moduleNum - 1];
+                if (card && !card.querySelector('.complete-badge')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'complete-badge';
+                    badge.textContent = '✓ Completed';
+                    card.querySelector('.module-title').appendChild(badge);
+                }
+            });
+        }
+
+        function nextStep(currentId, nextId) {
+            document.getElementById(currentId).classList.remove('active');
+            document.getElementById(nextId).classList.add('active');
+            window.scrollTo(0, document.getElementById(nextId).offsetTop - 100);
+        }
+
+        function showDecision(resultId) {
+            // Hide all results
+            document.querySelectorAll('.decision-result').forEach(r => {
+                r.classList.remove('active');
+            });
+            
+            // Show selected result
+            document.getElementById(resultId).classList.add('active');
+            
+            // Scroll to result
+            setTimeout(() => {
+                document.getElementById(resultId).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function resetDecisions() {
+            document.querySelectorAll('.decision-result').forEach(r => {
+                r.classList.remove('active');
+            });
+            window.scrollTo(0, 0);
+        }
+
+        function showAppDecision(resultId) {
+            // Hide all results
+            document.querySelectorAll('.decision-result').forEach(r => {
+                r.classList.remove('active');
+            });
+            
+            // Show selected result
+            document.getElementById(resultId).classList.add('active');
+            
+            // Scroll to result
+            setTimeout(() => {
+                document.getElementById(resultId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function resetAppDecisions() {
+            document.querySelectorAll('.decision-result').forEach(r => {
+                r.classList.remove('active');
+            });
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
